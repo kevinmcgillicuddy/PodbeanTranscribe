@@ -2,7 +2,6 @@
 var msg = 'Hello World';
 console.log(msg);
 
-
 let parser = new Parser();
 
 /*
