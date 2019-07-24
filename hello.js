@@ -1,17 +1,18 @@
- 
-var fs = require('fs'),
-xml2js = require('xml2js');
-var util = require('util');
-var parser = new xml2js.Parser();
+const xml2js = require('xml2js');
+const fs = require('fs');
+const parser = new xml2js.Parser({ attrkey: "ATTR" });
 
-fs.readFile(__dirname + '/feed.xml', function(err, data) {
-    parser.parseString(data, function (err, result) {
-        //console.log(util.inspect(result, false, null))
-        JSON.stringify(result);
-        console.log(result);
-    });
+let xml_string = fs.readFileSync("feed.xml", "utf8");
+
+parser.parseString(xml_string, function(error, result) {
+    if(error === null) {
+        console.log(result.rss.channel.title[2]);
+    }
+    else {
+        console.log(error);
+    }
 });
-  
+
 
 /*
 need to grab podcasts from RSS 
@@ -22,4 +23,11 @@ Upload to S3
 Create Job
 Get JSON
 Save as file to OneDrive *Flow?
+
+
+parser.parseString(data, function (err, result) {
+        //console.log(util.inspect(result, false, null))
+        JSON.stringify(result);
+        console.log(result);
+    
 */
