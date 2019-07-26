@@ -6,7 +6,7 @@ let xml_string = fs.readFileSync("feed.xml", "utf8");
 
 parser.parseString(xml_string, function(error, result) {
     if(error === null) {
-        console.log(result.rss.channel.title[2]);
+        console.log(result.rss.ATTR.version);
     }
     else {
         console.log(error);
