@@ -1,33 +1,17 @@
-const xml2js = require('xml2js');
+let Parser = require('rss-parser');
+let parser = new Parser();
 const fs = require('fs');
-const parser = new xml2js.Parser({ attrkey: "ATTR" });
 
-let xml_string = fs.readFileSync("feed.xml", "utf8");
+(async () => {
+ 
+  let feed = await parser.parseURL('https://bridgetown.podbean.com/feed.xml');
+  const title=feed.items[0].title;
+  const DownloadLink=feed.items[0].enclosure.url
+  console.log(DownloadLink);
 
-parser.parseString(xml_string, function(error, result) {
-    if(error === null) {
-        console.log(result.rss.ATTR.version);
-    }
-    else {
-        console.log(error);
-    }
-});
+  var request = require('request');
+  request(DownloadLink).pipe(fs.createWriteStream ('file.mp3'))
 
 
-/*
-need to grab podcasts from RSS 
-    (https://bridgetown.podbean.com/feed.xml)
-COmpare dates
-Download latest
-Upload to S3
-Create Job
-Get JSON
-Save as file to OneDrive *Flow?
 
-
-parser.parseString(data, function (err, result) {
-        //console.log(util.inspect(result, false, null))
-        JSON.stringify(result);
-        console.log(result);
-    
-*/
+})();
