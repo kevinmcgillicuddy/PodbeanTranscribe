@@ -1,6 +1,7 @@
 let Parser = require('rss-parser');
 let parser = new Parser();
 const fs = require('fs');
+var request = require('request');
 
 (async () => {
  
@@ -9,9 +10,8 @@ const fs = require('fs');
   const DownloadLink=feed.items[0].enclosure.url
   console.log(DownloadLink);
 
-  var request = require('request');
-  request(DownloadLink).pipe(fs.createWriteStream ('file.mp3'))
-
+  
+  var file = request(DownloadLink).pipe(fs.createWriteStream ('file.mp3'))
 
 
 })();
