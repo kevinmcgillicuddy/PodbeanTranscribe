@@ -11,9 +11,11 @@ var audioFile = fs.createWriteStream('audioFile.mp3');
 
 
 
-var download = parser.parseURL('https://bridgetown.podbean.com/feed.xml');
+var download = parser.parseURL('https://bridgetown.podbean.com/feed.xml',function(err,feed){
+  
+}
 
-   var request = http.request(download,function(response){
+   var request = http.get(download,function(response){
     response.pipe(audioFile);
     File.on('finish',function(){
       s3.upload({ Bucket: bucketName, Key: "mp3.mp3", Body: audioFile });
