@@ -23,6 +23,7 @@ parser.parseURL('https://bridgetown.podbean.com/feed.xml', function (err, feed) 
         var someDataStream = fs.createReadStream('p3.mp3'); //maybe knox can make this easier so not writing than reading?
         s3.upload({ Bucket: "transcribebucketkm", Key: "File.mp3", Body: someDataStream},function(err,data){
             console.log(err);
+            //need to fix mediafileURI
             transcribeservice.startTranscriptionJob({LanguageCode: "en-US", Media:{MediaFileUri: data.Location}, MediaFormat: "mp3", TranscriptionJobName: "testing"});
             });
 
