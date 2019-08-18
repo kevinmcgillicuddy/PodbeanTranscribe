@@ -9,22 +9,18 @@ var transcribeservice = new AWS.TranscribeService();
 AWS.config.update({region:'us-east-1'});
 var datetime = new Date();
 var datetime = datetime.toISOString().slice(0,10) + ".mp3"
+mediafileuri= "http://s3.amazonaws.com/transcribebucketkm/" + datetime
 
 parser.parseURL('https://bridgetown.podbean.com/feed.xml', function (err, feed) {
     var requestSettings = {
     method: 'GET',
     url: feed.items[0].enclosure.url,
-    encoding: null //request puts body response as string by default
-                        };
+    encoding: null}; //request puts body response as string by default
    request(requestSettings,function (err, response, body){
-        fs.writeFile("./p3.mp3",body,function(err){
-       
-             var someDataStream = fs.createReadStream('mp3.mp3'); //maybe knox?
-            s3.upload({ Bucket: bucketName, Key: datetime, Body: someDataStream},function(err,data){
-            transcribeservice.startTranscriptionJob({LanguageCode: "en-US", Media:{MediaFileUri: "http://s3.amazonaws.com/transcribebucketkm/" + datetime}, MediaFormat: "mp3", TranscriptionJobName: datetime});
+            s3.upload({ Bucket: bucketName, Key: datetime, Body: body},function(err,data){
+              transcribeservice.startTranscriptionJob({LanguageCode: "en-US", Media:{MediaFileUri: mediafileuri}, MediaFormat: "mp3", TranscriptionJobName: datetime});
             });
 
       });
    });
-  });
-      
+       
