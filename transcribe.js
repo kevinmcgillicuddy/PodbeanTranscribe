@@ -6,25 +6,22 @@ var AWS = require('aws-sdk');
 let parser = new Parser();
 var s3 = new AWS.S3();
 var transcribeservice = new AWS.TranscribeService();
-//var audioFile = fs.createWriteStream('audioFile.mp3');
-
+AWS.config.update({region:'us-east-1'});
+var datetime = new Date();
+var datetime = datetime.toISOString().slice(0,10) + ".mp3"
 
 parser.parseURL('https://bridgetown.podbean.com/feed.xml', function (err, feed) {
-  console.log(err);
-  var requestSettings = {
+    var requestSettings = {
     method: 'GET',
     url: feed.items[0].enclosure.url,
     encoding: null //request puts body response as string by default
-};
+                        };
    request(requestSettings,function (err, response, body){
-     console.log(err);
-      fs.writeFile("./p3.mp3",body,function(err){
-        console.log(err);
-        var someDataStream = fs.createReadStream('p3.mp3'); //maybe knox can make this easier so not writing than reading?
-        s3.upload({ Bucket: "transcribebucketkm", Key: "File.mp3", Body: someDataStream},function(err,data){
-            console.log(err);
-            //need to fix mediafileURI
-            transcribeservice.startTranscriptionJob({LanguageCode: "en-US", Media:{MediaFileUri: data.Location}, MediaFormat: "mp3", TranscriptionJobName: "testing"});
+        fs.writeFile("./p3.mp3",body,function(err){
+       
+             var someDataStream = fs.createReadStream('mp3.mp3'); //maybe knox?
+            s3.upload({ Bucket: bucketName, Key: datetime, Body: someDataStream},function(err,data){
+            transcribeservice.startTranscriptionJob({LanguageCode: "en-US", Media:{MediaFileUri: "http://s3.amazonaws.com/transcribebucketkm/" + datetime}, MediaFormat: "mp3", TranscriptionJobName: datetime});
             });
 
       });
