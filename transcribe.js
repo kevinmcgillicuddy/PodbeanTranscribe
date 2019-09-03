@@ -2,7 +2,6 @@
  //dependancies
  
  let Parser = require('rss-parser');
-  let fs = require('fs');
   var request = require('request');
   var AWS = require('aws-sdk');
   AWS.config.update({region:'us-east-1'});
