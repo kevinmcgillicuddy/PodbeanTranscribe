@@ -21,8 +21,8 @@ parser.parseURL('https://bridgetown.podbean.com/feed.xml', function (err, feed) 
     encoding: null}; //request puts body response as string by default
      request(requestSettings,function (err, response, body){
 
-            s3.upload({ Bucket: bucketName, Key: datetime, Body: body},function(err,data){
-              transcribeservice.startTranscriptionJob({LanguageCode: "en-US", Media:{MediaFileUri: mediafileuri}, MediaFormat: "mp3", TranscriptionJobName: datetime, OutputBucketName: bucketNameOut},function(err){
+            s3.upload({ Bucket: bucketName, Key: feed.items[0].title, Body: body},function(err,data){
+              transcribeservice.startTranscriptionJob({LanguageCode: "en-US", Media:{MediaFileUri: mediafileuri}, MediaFormat: "mp3", TranscriptionJobName: feed.items[0].title, OutputBucketName: bucketNameOut},function(err){
                 console.log(err)
               });
             });
