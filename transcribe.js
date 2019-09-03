@@ -1,18 +1,20 @@
 
  //dependancies
-  let Parser = require('rss-parser');
+ 
+ let Parser = require('rss-parser');
   let fs = require('fs');
   var request = require('request');
   var AWS = require('aws-sdk');
-
+  AWS.config.update({region:'us-east-1'});
 var bucketName = 'transcribebucketkm';
 var bucketNameOut = 'transcribebucketkm-out';
 let parser = new Parser();
 var s3 = new AWS.S3();
 var transcribeservice = new AWS.TranscribeService();
-AWS.config.update({region:'us-east-1'});
 
-var datetime = new Date.toISOString().slice(0,10) + ".mp3";
+
+var datetime = new Date()
+var datetime= datetime.toISOString().slice(0,10) + ".mp3";
 var mediafileuri= "http://s3.amazonaws.com/transcribebucketkm/" + datetime
 
 parser.parseURL('https://bridgetown.podbean.com/feed.xml', function (err, feed) {
@@ -23,10 +25,10 @@ parser.parseURL('https://bridgetown.podbean.com/feed.xml', function (err, feed) 
      request(requestSettings,function (err, response, body){
 
             s3.upload({ Bucket: bucketName, Key: datetime, Body: body},function(err,data){
-              console.log(err)
-              transcribeservice.startTranscriptionJob({LanguageCode: "en-US", Media:{MediaFileUri: mediafileuri}, MediaFormat: "mp3", TranscriptionJobName: datetime, OutputBucketName: bucketNameOut});
+              transcribeservice.startTranscriptionJob({LanguageCode: "en-US", Media:{MediaFileUri: mediafileuri}, MediaFormat: "mp3", TranscriptionJobName: datetime, OutputBucketName: bucketNameOut},function(err){
+                console.log(err)
+              });
             });
-
       });
    });
        
