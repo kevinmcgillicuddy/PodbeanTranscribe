@@ -11,9 +11,7 @@ let parser = new Parser();
 var s3 = new AWS.S3();
 var transcribeservice = new AWS.TranscribeService();
 
-
-var datetime = new Date()
-var datetime= datetime.toISOString().slice(0,10) + ".mp3";
+var datetime = new Date().toISOString().slice(0,10) + ".mp3";
 var mediafileuri= "http://s3.amazonaws.com/transcribebucketkm/" + datetime
 
 parser.parseURL('https://bridgetown.podbean.com/feed.xml', function (err, feed) {
