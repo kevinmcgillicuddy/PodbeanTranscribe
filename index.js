@@ -13,8 +13,8 @@ console.log(datetime)
 var mediafileuri= "http://s3.amazonaws.com/transcribebucketkm/" + datetime
 parser.parseURL('https://bridgetown.podbean.com/feed.xml', function (err, feed) {
              request({ method: 'GET', url: feed.items[0].enclosure.url, encoding: null},function (err, response, body){ 
-            s3.upload({ Bucket: bucketName, Key: datetime, Body: body},function(err,data){
-                  transcribeservice.startTranscriptionJob({LanguageCode: "en-US", Media:{MediaFileUri: mediafileuri}, MediaFormat: "mp3", TranscriptionJobName: datetime, OutputBucketName: bucketNameOut});
+            s3.upload({ Bucket: bucketName, Key:feed.items[0].title, Body: body},function(err,data){
+                  transcribeservice.startTranscriptionJob({LanguageCode: "en-US", Media:{MediaFileUri: mediafileuri}, MediaFormat: "mp3", TranscriptionJobName: feed.items[0].title, OutputBucketName: bucketNameOut});
             });
 
       });
