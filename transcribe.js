@@ -4,9 +4,6 @@ let Parser = require('rss-parser');
 var request = require('request-promise-native');
 var AWS = require('aws-sdk');
 AWS.config.update({ region: 'us-east-1' });
-// var bucketName = 'transcribebucketkm';
-// var bucketNameOut = 'transcribebucketkm-out';
-let parser = new Parser();
 var s3 = new AWS.S3();
 var transcribeservice = new AWS.TranscribeService();
 
@@ -17,12 +14,10 @@ class Transcribtion {
     this.URL = URL;
   }
   async file() {
+    let parser = new Parser();
     let file = await parser.parseURL(this.URL)
     let title = file.items[0].title.toString().replace(/\s/g, '') + ".mp3"
-    
     return { file: file, title: title };
-
-
   }
   async download(file) {
     var requestSettings = { method: 'GET', url: file, encoding: null };
@@ -40,8 +35,8 @@ class Transcribtion {
 
 
 
-let scribe = new Transcribtion('transcribekm', 'transcribeout', 'https://bridgetown.podbean.com/feed.xml')
-scribe.file().then((blah)=>{
+let scribe = new Transcribtion('transcribebucketkm', 'transcribebucketkm-out', 'https://bridgetown.podbean.com/feed.xml')
+scribe.file().then((blah) => {
   console.log(blah.title)
 })
 
