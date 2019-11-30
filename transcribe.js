@@ -1,7 +1,7 @@
 //dependancies
 
 let Parser = require('rss-parser');
-var request = require('request-promise-native');
+var request = require('request-promise');
 var AWS = require('aws-sdk');
 AWS.config.update({ region: 'us-east-1' });
 var s3 = new AWS.S3();
@@ -22,37 +22,33 @@ class Transcribtion {
   }
   async download(url) {
     var requestSettings = { method: 'GET', url: url, encoding: null };
-    await request(requestSettings)
+    let downloadedFile = await request(requestSettings)
+    return downloadedFile
   }
 
-  async upload() {
-    s3.upload({ Bucket: bucketName, Key: title, Body: body }, function (err, data) {
-      var mediafileuri = "http://s3.amazonaws.com/transcribebucketkm/" + title
-      transcribeservice.startTranscriptionJob({ LanguageCode: "en-US", Media: { MediaFileUri: mediafileuri }, MediaFormat: "mp3", TranscriptionJobName: title, OutputBucketName: bucketNameOut })
-    })
-
-  }
+  async upload(body) {
+    s3.upload({ Bucket: this.bucketName, Key: 'title', Body: body })
+    console.log('uploading')
+}
 }
 
 
 
 let scribe = new Transcribtion('transcribebucketkm', 'transcribebucketkm-out', 'https://bridgetown.podbean.com/feed.xml')
-scribe.file().then((res) => {
-    return res
-  }).then()
 
-//  //dependancies
- 
-//  let Parser = require('rss-parser');
-//  var request = require('request');
-//  var AWS = require('aws-sdk');
-//  AWS.config.update({region:'us-east-1'});
-//  var bucketName = 'transcribebucketkm';
-//  var bucketNameOut = 'transcribebucketkm-out';
-//  let parser = new Parser();
-//  var s3 = new AWS.S3();
-//  var transcribeservice = new AWS.TranscribeService();
- 
+scribe.file().then((res) => {
+  console.log(res)
+  return res
+}).then((res) => {
+  scribe.download(res.url)
+}).then((res)=>{
+  scribe.upload(res)
+}).catch((err)=>{
+  console.log(err)
+})
+
+
+
 //  parser.parseURL('https://bridgetown.podbean.com/feed.xml', function (err, feed) {
 //      var requestSettings = {
 //      method: 'GET',
