@@ -37,12 +37,12 @@ class Transcribtion {
 let scribe = new Transcribtion('transcribebucketkm', 'transcribebucketkm-out', 'https://bridgetown.podbean.com/feed.xml')
 
 scribe.file().then((res) => {
-  console.log(res)
   return res
 }).then((res) => {
   scribe.download(res.url)
-}).then((res)=>{
-  scribe.upload(res)
+  return downloadedFile
+}).then((repo)=>{
+  scribe.upload(repo)
 }).catch((err)=>{
   console.log(err)
 })
