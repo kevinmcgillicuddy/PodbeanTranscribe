@@ -7,7 +7,7 @@ AWS.config.update({ region: 'us-east-1' });
 var s3 = new AWS.S3();
 var transcribeservice = new AWS.TranscribeService();
 
-class Transcribtion {
+class Transcription {
   constructor(bucketName, bucketOutput, URL) {
     this.bucketName = bucketName;
     this.bucketOutput = bucketOutput;
@@ -30,7 +30,7 @@ class Transcribtion {
     console.log('uploading')
 }
 }
-let scribe = new Transcribtion('transcribebucketkm', 'transcribebucketkm-out', 'https://bridgetown.podbean.com/feed.xml')
+let scribe = new Transcription('transcribebucketkm', 'transcribebucketkm-out', 'https://bridgetown.podbean.com/feed.xml')
 scribe.file().then((res) => {
   console.log('promise1 resolved', res)
   return res
