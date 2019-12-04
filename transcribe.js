@@ -1,5 +1,5 @@
 //dependancies
-
+//
 let Parser = require('rss-parser');
 var request = require('request-promise');
 var AWS = require('aws-sdk');
@@ -41,5 +41,6 @@ scribe.file().then((res) => {
 }).catch((err)=>{
   console.log(err)
 })
+
 
 
