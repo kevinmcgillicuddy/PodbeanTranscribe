@@ -1,0 +1,29 @@
+{
+  "name": "transcribe",
+  "version": "1.0.0",
+  "description": "Simple node app to parse Podbean RSS XML and then downloaded latest MP3. Will then submit that to AWS for transcoding",
+  "main": "transcribe.js",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "node-fetch": "^2.6.0",
+    "request": "^2.88.0",
+    "rss-parser": "^3.7.2",
+    "request-promise-native": "^1.0.8",
+    "request-promise": "^4.2.5",
+    "aws-sdk": "^2.510.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinmcgillicuddy/transcribe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevinmcgillicuddy/transcribe/issues"
+  },
+  "homepage": "https://github.com/kevinmcgillicuddy/transcribe#readme"
+}
