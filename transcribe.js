@@ -1,10 +1,10 @@
 //dependancies
-//
 let Parser = require('rss-parser');
-var request = require('request-promise');
+var request = require('request');
 var AWS = require('aws-sdk');
+const fs = require('fs');
 AWS.config.update({ region: 'us-east-1' });
-var s3 = new AWS.S3();
+
 var transcribeservice = new AWS.TranscribeService();
 
 class Transcription {
@@ -21,29 +21,40 @@ class Transcription {
     let mediafile = "http://s3.amazonaws.com/" + this.bucketName + "/" + url
     return { url: url, title: title, mediafile: mediafile };
   }
-  async download(url) {
-    var requestSettings = { method: 'GET', url: url, encoding: null };
-    let downloadedFile = await request(requestSettings)
-    return downloadedFile
+  // async download(url) {
+  //   var requestSettings = { method: 'GET', url: url,encoding:null };
+  //   let downloadedFile = await request(requestSettings)
+  //   return downloadedFile
+  // }
+  async upload(url) {
+    let fileStream = fs.createWriteStream('node.mp3');
+    var requestSettings = { method: 'GET', url: url,encoding:null };
+    request(requestSettings,()=>{
+      var s3 = new AWS.S3();
+      s3.upload({ Bucket: this.bucketName, Key: "title", Body: fileStream})
+    //await transcribeservice.startTranscriptionJob({ LanguageCode: "en-US", Media: { MediaFileUri: "test" }, MediaFormat: "mp3", TranscriptionJobName: "title", OutputBucketName: this.bucketOutput })
+    }).pipe(fileStream)
+    
   }
-  async upload(body) {
-    let res = await s3.upload({ Bucket: this.bucketName , Key: "title", Body: body })
-    let job = await transcribeservice.startTranscriptionJob({LanguageCode: "en-US", Media:{MediaFileUri: mediafile}, MediaFormat: "mp3", TranscriptionJobName: title, OutputBucketName: this.bucketOutput})
-    console.log(res,job)
 }
+// let scribe = new Transcription('transcribebucketkm', 'transcribebucketkm-out', 'https://bridgetown.podbean.com/feed.xml')
 
-}
-let scribe = new Transcription('transcribebucketkm', 'transcribebucketkm-out', 'https://bridgetown.podbean.com/feed.xml')
+var s3 = new AWS.S3();
+var params = {
+  Bucket: "transcribebucketkm", 
+  Key: "title"
+ };
+ s3.getObject(params, function(err, data) {
+   if (err) console.log(err, err.stack); // an error occurred
+   else     console.log(data);           // successful response
+   
+ });
 
-scribe.mp3Info().then((response) => {
-  return response
-}).then((res) => {
-  return scribe.download(res.url)
-}).then((repo)=>{
-  scribe.upload(repo)
-}).catch((err)=>{
-  console.log("Error",err)
-})
+// scribe.mp3Info().then((response) => {
+//    scribe.upload(response.url)
+// }).catch((err) => {
+//   console.log("Error", err)
+// })
 
 
 
