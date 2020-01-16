@@ -4,13 +4,13 @@
   "description": "Simple node app to parse Podbean RSS XML and then downloaded latest MP3. Will then submit that to AWS for transcoding",
   "main": "transcribe.js",
   "dependencies": {
+    "aws-sdk": "^2.604.0",
     "fs": "^0.0.1-security",
     "node-fetch": "^2.6.0",
     "request": "^2.88.0",
-    "rss-parser": "^3.7.2",
-    "request-promise-native": "^1.0.8",
     "request-promise": "^4.2.5",
-    "aws-sdk": "^2.510.0"
+    "request-promise-native": "^1.0.8",
+    "rss-parser": "^3.7.3"
   },
   "devDependencies": {},
   "scripts": {
