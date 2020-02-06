@@ -31,21 +31,19 @@ class Transcription {
     var requestSettings = { method: 'GET', url: url,encoding:null };
     request(requestSettings,()=>{
       var s3 = new AWS.S3();
-      s3.putObkect({ Bucket: this.bucketName, Key: "title", Body: fileStream, ContentType: "application/octet-stream"})
+      s3.putObject({ Bucket: this.bucketName, Key: "title", Body: fileStream, ContentType: "application/octet-stream"})
     
     }).pipe(fileStream)
     
   }
 }
-let scribe = new Transcription('transcribebucketkm', 'transcribebucketkm-out', 'https://bridgetown.podbean.com/feed.xml')
+// let scribe = new Transcription('transcribebucketkm', 'transcribebucketkm-out', 'https://bridgetown.podbean.com/feed.xml')
 
-scribe.mp3Info().then((response) => {
-   scribe.upload(response.url)
-}).catch((err) => {
-  console.log("Error", err)
-})
-
-
+// scribe.mp3Info().then((response) => {
+//    scribe.upload(response.url)
+// }).catch((err) => {
+//   console.log("Error", err)
+// })
 
 
 
@@ -63,14 +61,16 @@ scribe.mp3Info().then((response) => {
 
 
 
-//var s3 = new AWS.S3();
-// var params = {
-//   Bucket: "transcribebucketkm", 
-//   Key: "title"
-//  };
-//  s3.getObject(params, function(err, data) {
-//    if (err) console.log(err, err.stack); // an error occurred
-//    else     console.log(data);           // successful response
+
+
+var s3 = new AWS.S3();
+var params = {
+  Bucket: "transcribebucketkm", 
+  Key: "title"
+ };
+ s3.getObject(params, function(err, data) {
+   if (err) console.log(err, err.stack); // an error occurred
+   else     console.log(data);           // successful response
    
-//  });
+ });
 
