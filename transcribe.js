@@ -5,7 +5,7 @@ const speech = require('@google-cloud/speech');
 // Creates a client
 const client = new speech.SpeechClient();
 
-/**
+/**cd 
  * TODO(developer): Uncomment the following lines before running the sample.
  */
 //const gcsUri = 'gs://bucketkevin01/node.mp3';
