@@ -1,6 +1,6 @@
 // Imports the Google Cloud client library
 const speech = require('@google-cloud/speech');
-const fs = require('fs');
+//const fs = require('fs');
 
 // Creates a client
 const client = new speech.SpeechClient();
@@ -9,7 +9,7 @@ const client = new speech.SpeechClient();
  * TODO(developer): Uncomment the following lines before running the sample.
  */
 //const gcsUri = 'gs://bucketkevin01/node.mp3';
-const gcsUri = 'gs://bucketkevin01/node.mp3';
+const gcsUri = 'gs://lifechurcharchive-176dd.appspot.com/mp3/2020/3_8_2020.mp3.m4a';
 const encoding = 'm4a';
 const sampleRateHertz = 16000;
 const languageCode = 'en-US';
