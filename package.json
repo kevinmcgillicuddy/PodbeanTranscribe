@@ -1,0 +1,27 @@
+{
+  "name": "podbeantranscribe",
+  "version": "1.0.0",
+  "description": "Simple app to grab RSS feed, download a MP3 and submit for transcription, mainly a POC for an angular app",
+  "main": "transcribe.js",
+  "dependencies": {
+    "aws-sdk": "^2.810.0",
+    "fs": "^0.0.1-security",
+    "node-fetch": "^2.6.1",
+    "request": "^2.88.2",
+    "rss-parser": "^3.10.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinmcgillicuddy/PodbeanTranscribe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevinmcgillicuddy/PodbeanTranscribe/issues"
+  },
+  "homepage": "https://github.com/kevinmcgillicuddy/PodbeanTranscribe#readme"
+}
