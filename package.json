@@ -4,7 +4,7 @@
   "description": "Simple app to grab RSS feed, download a MP3 and submit for transcription, mainly a POC for an angular app",
   "main": "transcribe.js",
   "dependencies": {
-    "aws-sdk": "^2.810.0",
+    "aws-sdk": "^2.814.0",
     "fs": "^0.0.1-security",
     "node-fetch": "^2.6.1",
     "request": "^2.88.2",
